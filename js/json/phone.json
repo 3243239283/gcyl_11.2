@@ -1,0 +1,9 @@
+{
+    "success": "True",
+    "errorCode": "-2",
+    "errorMsg": "手机号未注册",
+    "content": {
+        "userid": "用户ID",
+        "verifycode": "验证码"
+    }
+}

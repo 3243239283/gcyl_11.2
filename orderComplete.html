@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+		<title>光彩异联</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <link rel="icon" type="image/png" href="/theme/default/images/favicon.png">
+		<link href="css/amazeui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link href="css/check.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="css/font.css" type="text/css" />
+		<style>
+		.orderbox .or_list{background: #FFFFFF;border-bottom: 10px solid #e9e9e9;}
+		.orderbox .or_list:last-child{border-bottom: none;}
+		</style>
+	</head>
+	<body>
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">订单管理</a>
+            </h1>
+	    </header>
+	    <div style="height: 49px;"></div>
+	    <ul class="order-style">
+	    	<li class="current"><a href="orderComplete.html">已完成</a></li>
+	    	<li><a href="orderUnComplete.html">待确认</a></li>
+	    	<li><a href="orderCancel.html">已取消</a></li>
+	    </ul>
+	    <!--订单列表容器-->
+	    <div class="orderbox"></div>
+	</body>
+	<script src="js/zepto.js"></script>
+	<script>		
+		$.ajax({
+		    type: 'POST',
+		    url: 'js/json/orderComplete.json',
+		    dataType:'json',
+		    success: function(data){
+		    	/*{
+			        "address":"",       	//地址
+			        "commenttime":"",  		//评论时间 
+			        "content":"",
+			        "createtime":"",   		//创建时间
+			        "fee":"",               //支付金额
+			        "grade":"",
+			        "id":"",
+			        "iscomment":"",
+			        "ismanufactor":"",
+			        "logisticsno":"",       //快递单号
+			        "logisticsservice":"",  //物流服务
+			        "name":"",              //用户名
+			        "orderno":"",      		//订单编号
+			        "orderstatus":"",       //状态
+			        "orderstatusname":"",   //订单状态的名字
+			        "paytime":"",    		//付款时间
+			        "paytype":"",           //支付类型
+			        "paytypename":"",       //支付类型名称
+			        "phone":"",             //用户电话号码
+			        "score":"",
+			        "shopname":"",          //商家名称
+			        "shopphone":"",         //商家电话
+			        "userphone":""           
+			    }*/
+			    for (var i = 0; i<data.length; i++) {
+			    	/*
+			    	orderstatus：@"-1"全部   @"0":代付款   @"1":待消费   @"5":待发货  @"6":待收货   @"2":待评价  @"3":已完成  @"4"：取消
+			    	*/
+			    	var list_txt='<div class="c-comment-list or_list">'
+									 +'<a href="orderComDetails.html">'
+									 +'<p>订单编号：'+data[i].orderno+'</p>'
+									 +'<p>支付时间：'+data[i].paytime+'</p>'
+									 +'<p>支付金额：<span>￥'+data[i].fee+'</span></p>'
+									 +'<p>用户名：'+data[i].name+' <span><i class="iconfont">&#xe61c;</i>'+data[i].phone+'</span></p>'
+									 +'<p>收货地址：'+data[i].address+'</p>'
+									 +'</a>'
+									 +'</div>'
+			    	/*if(data[i].orderstatus==3){}  */
+			    	$('.orderbox').prepend(list_txt);
+			    }
+			},
+			error: function(xhr, type){
+			  	alert('Ajax error!')
+			}
+		});
+	</script>
+</html>

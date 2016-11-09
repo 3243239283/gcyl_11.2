@@ -1,0 +1,8 @@
+{
+    "success": "True",
+    "errorCode": "-4",
+    "errorMsg": "手机号已存在",
+    "content": {
+        "userid": "用户ID"
+    }
+}

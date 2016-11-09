@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>光彩异联</title>
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="icon" type="image/png" href="/theme/default/images/favicon.png">
+		<link href="css/amazeui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="css/font.css" type="text/css" />
+	</head>
+
+	<body style="background: #f6f6f6;">
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">选择商品</a>
+            </h1>
+		</header>
+		<div style="height: 49px;"></div>
+		<h3 style="margin-left: 3%;">已分类</h3>
+		<form name="myForm1">
+			<ul class="list-pro listbox" style="height:45px;margin-top: 0;padding-bottom: 10px;">
+				<li class="fl" style="padding: 0;width: 30%;border:0;margin: 0 0 0 3%;">
+					<label class="am-checkbox am-warning" style="float: left; width: 5%; ">
+                 <input type="checkbox" checked="checked" value="" data-am-ucheck checked>
+                </label>
+					<div class="shop-list-mid" style="width: 60%;margin-top: 6px;">服装</div>
+				</li>
+				<li class="fl" style="padding: 0;width: 30%;border:0;margin: 0 0 0 3%; ">
+					<label class="am-checkbox am-warning" style="float: left; width: 5%;">
+                 <input type="checkbox" checked="checked" value="" data-am-ucheck checked>
+                </label>
+					<div class="shop-list-mid" style="width: 60%;margin-top: 6px;">服装</div>
+				</li>
+				<li class="fl" style="padding: 0;width: 30%;border:0;margin: 0 0 0 3%;">
+					<label class="am-checkbox am-warning" style="float: left; width: 5%; ">
+                 <input type="checkbox" checked="checked" value="" data-am-ucheck checked>
+                </label>
+					<div class="shop-list-mid" style="width: 60%;margin-top: 6px;">服装</div>
+				</li>
+				<li class="fl" style="padding: 0;width: 30%;border:0;margin: 0 0 0 3%;">
+					<label class="am-checkbox am-warning" style="float: left; width: 5%; ">
+                 <input type="checkbox" checked="checked" value="" data-am-ucheck checked>
+                </label>
+					<div class="shop-list-mid" style="width: 60%;margin-top: 6px;">服装</div>
+				</li>
+				<li class="fl" style="padding: 0;width: 30%;border:0;margin: 0 0 0 3%;">
+					<label class="am-checkbox am-warning" style="float: left; width: 5%; ">
+                 <input type="checkbox" checked="checked" value="" data-am-ucheck checked>
+                </label>
+					<div class="shop-list-mid" style="width: 60%;margin-top: 6px;">服装</div>
+				</li>			
+			</ul>
+			<div style="margin-left: 3%;padding-bottom: 60px;">
+				<a href="javascript:" class="showmore">
+					<i style="color:#909090;" class="iconfont">&#xe621;</i>
+					<span>显示更多</span>
+				</a>					
+			</div>
+		</form>
+		<div class="clear"></div>
+		<h3 style="margin-left: 3%;">未分类</h3>
+		<form name="myForm2">
+			<ul class="list-pro" style="margin-top: 0;">
+				<li class="fl" style="padding: 0;width: 30%;border:0;margin: 0 0 0 3%;">
+					<label class="am-checkbox am-warning" style="float: left; width: 5%; ">
+                 <input type="checkbox" checked="checked" value="" data-am-ucheck checked>
+                </label>
+					<div class="shop-list-mid" style="width: 60%;margin-top: 6px;">服装</div>
+				</li>
+				<li class="fl" style="padding: 0;width: 30%;border:0;margin: 0 0 0 3%; ">
+					<label class="am-checkbox am-warning" style="float: left; width: 5%;">
+                 <input type="checkbox" checked="checked" value="" data-am-ucheck checked>
+                </label>
+					<div class="shop-list-mid" style="width: 60%;margin-top: 6px;">服装</div>
+				</li>
+				<li class="fl" style="padding: 0;width: 30%;border:0;margin: 0 0 0 3%;">
+					<label class="am-checkbox am-warning" style="float: left; width: 5%; ">
+                 <input type="checkbox" checked="checked" value="" data-am-ucheck checked>
+                </label>
+					<div class="shop-list-mid" style="width: 60%;margin-top: 6px;">服装</div>
+				</li>
+			</ul>
+		</form>
+		<form name="myForm3">
+			<ul class="list-pro" style="margin-top: 0;">
+				<li class="fl" style="padding: 0;width: 30%;border:0;margin: 0 0 0 3%;">
+					<label class="am-checkbox am-warning" style="float: left; width: 5%; ">
+                 <input type="checkbox" checked="checked" value="" data-am-ucheck checked onclick="changeState(this.checked)">
+                </label>
+					<div class="shop-list-mid" style="width: 60%;margin-top: 6px;">全选</div>
+				</li>
+			</ul>
+		</form>
+		<script language="JavaScript" type="text/javascript">
+			function changeState(isChecked) {
+				var chk_list = document.getElementsByTagName("input");
+				for(var i = 0; i < chk_list.length; i++) {
+					if(chk_list[i].type == "checkbox") {
+						chk_list[i].checked = isChecked;
+					}
+				}
+			}
+		</script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/amazeui.min.js"></script>
+	</body>
+	<script>
+		/*显示更多*/
+		var $showmore=$('.showmore');
+		var $listbox=$('.listbox');
+		$showmore.on('click',function(){
+			var $s_txt=$(this).children('span');
+			if($s_txt.text()=='收起列表'){
+				$listbox.css('height','45px');
+				$s_txt.text('显示更多');
+			}else{
+				$s_txt.text('收起列表');
+				$listbox.css('height','auto');
+			}			
+		});
+	</script>
+</html>

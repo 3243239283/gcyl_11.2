@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>光彩异联</title>
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="icon" type="image/png" href="/theme/default/images/favicon.png">
+		<link href="css/amazeui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="css/font.css" type="text/css" />
+	</head>
+
+	<body>
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">意见反馈</a>
+            </h1>
+		</header>
+		<div style="height: 49px;"></div>
+		<div class="text-content">
+			<form action="#" id="opform" data-ajax="false">
+				<textarea style="width:100%;" class="opiniontxt" name="opinion" placeholder="限100字" rows="4" maxlength="100"></textarea>
+				<input type="submit" class="login-btn1 op_btn" value="提交">
+				<div class="errorbox" style="font-size: 1.5rem;color: red;"></div>
+			</form>
+		</div>
+	</body>
+	<script src="js/zepto.js"></script>
+	<script type="text/javascript">
+		var $opForm=$('#opform');
+		var $opiniontxt=$('textarea[name="opinion"]');
+		var $op_btn=$('.op_btn');
+		var $errorbox=$('.errorbox');
+		$op_btn.on('click',function(){
+			if($.trim($opiniontxt.val())==''){
+				$errorbox.html('意见反馈不能为空');
+				return false;
+			}else{
+				$.ajax({
+				    type: 'POST',
+				    //发送请求的地址
+				    url: 'js/json/feedback.json',
+				    dataType:'json',//预期服务器返回的数据类型
+				    data:$opForm.serialize(),	//发送到服务器的数据
+				    contentType: 'application/json',//发送信息至服务器时内容编码类型。
+				    success: function(data){
+					    if(data.errorCode=='-1'){
+					    	$('.errorbox').html(data.errorMsg);
+					    	return false;
+					    }else if(data.errorCode=='-9'){
+					    	$('.errorbox').html(data.errorMsg);
+					    	return false;
+					    }else if(data.errorCode=='-10'){
+					    	$('.errorbox').html(data.errorMsg);
+					    	return false;
+					    }
+					},
+					error: function(xhr,type){
+					  	alert('Ajax error!')
+					}
+				});
+				return true;
+			}
+		})
+	</script>
+</html>

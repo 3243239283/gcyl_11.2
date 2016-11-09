@@ -1,0 +1,14 @@
+[
+    {
+        "noticetype": "消息类型",
+        "name": "消息1",
+        "content": "内容",
+        "createtime": "时间"
+    },
+    {
+        "noticetype": "消息类型",
+        "name": "消息2",
+        "content": "内容",
+        "createtime": "时间"
+    }
+]

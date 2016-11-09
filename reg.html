@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>注册</title>
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="icon" type="image/png" href="/theme/default/images/favicon.png">
+		<link href="css/amazeui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<script src="js/jquery-1.10.2.min.js"></script>
+		<script src="js/time.js"></script>
+		<!--表单检验插件-->
+		<script src="js/validate/jquery.validate.js"></script>
+		<script src="js/validate/validMethod.js"></script>
+		<script src="js/inputLimit.js"></script>
+	</head>
+
+	<body>
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">注册</a>
+            </h1>
+		</header>
+		<div style="height: 49px;"></div>
+		<form id="registerForm">
+			<div class="reg">
+				<h3>商家名称</h3>
+				<input type="text" name="name" placeholder="请输入" class="reg-name">
+			</div>
+			<div class="reg">
+				<h3>联系电话</h3>
+				<input maxlength="11" type="text" name="mobile" placeholder="请输入" class="reg-name">
+			</div>
+			<div class="reg">
+				<h3>登录密码</h3>
+				<input type="text" name="password" placeholder="请输入" class="reg-password">
+			</div>
+			<div class="reg">
+				<h3>邮箱</h3>
+				<input type="text" name="email" placeholder="请输入" class="reg-name">
+			</div>
+			<div class="reg">
+				<h3>所在地</h3>
+				<input type="text" name="address" placeholder="请输入" class="reg-dress">
+				<i class="am-icon-angle-right">							</i>
+			</div>
+			<div class="reg">
+				<h3>详细地址</h3>
+				<input type="text" name="addmore" placeholder="请输入" class="reg-name">
+			</div>
+			<section class="logo-license">
+				<div style="margin: 10px 25%;" class="half w_50">
+					<div class="uploader blue">
+						<input type="text" data-imgsrc="" name="license_img" class="filename" readonly/>
+						<a class="license">
+							<img id="img-1" src="images/reg.png" />
+						</a>
+						<input id="file0" class="file-3" type="file" size="30" onchange="javascript:setImagePreview();" accept="image/*" capture="camera" />
+					</div>
+					<div class="yulan">
+						<img src="" id="img0">
+						<div class="enter">
+							<button class="btn-2 fl">取消</button>
+							<button class="btn-3 fr">确定</button>
+						</div>
+					</div>
+
+					<!-- <p>营业执照</p>-->
+				</div>
+			</section>
+			<div class="agree">
+		    	<input type="checkbox" name="agreeCheckbox" value="同意" checked="">&nbsp;同意光彩异联
+			    <a href="" class="xy">《用户注册协议》</a>
+		    </div>
+		    <input type="button" class="login-btn1 nextbtn" value="下一步">
+		    <div class="errorbox" style="margin: 0 5%;width: 90%;font-size: 1.5rem;color: red;"></div>
+		</form>
+	</body>
+			<script>
+			$("#file0").change(function() {
+				var objUrl = getObjectURL(this.files[0]);
+				obUrl = objUrl;
+				console.log("objUrl = " + objUrl);
+				if(objUrl) {
+					$("#img0").attr("src", objUrl).show();
+					$(".filename").attr("data-imgsrc", objUrl);
+				} else {
+					$("#img0").hide();
+				}
+			});
+
+			function qd() {
+				var objUrl = getObjectURL(this.files[0]);
+				obUrl = objUrl;
+				console.log("objUrl = " + objUrl);
+				if(objUrl) {
+					$("#img0").attr("src", objUrl).show();
+				} else {
+					$("#img0").hide();
+				}
+			}
+
+			function getObjectURL(file) {
+				var url = null;
+				if(window.createObjectURL != undefined) { // basic
+					url = window.createObjectURL(file);
+				} else if(window.URL != undefined) { // mozilla(firefox)
+					url = window.URL.createObjectURL(file);
+				} else if(window.webkitURL != undefined) { // webkit or chrome
+					url = window.webkitURL.createObjectURL(file);
+				}
+				return url;
+			}
+		</script>
+		<script type="text/javascript">
+			var subUrl = "";
+			$(function() {
+				$(".file-3").bind('change', function() {
+					subUrl = $(this).val()
+					$(".yulan").show();
+					$(".file-3").val("");
+				});
+
+				$(".file-3").each(function() {
+					if($(this).val() == ""){
+						$(this).parents(".uploader").find(".filename").val("上传营业执照(必选)");
+					}
+				});
+				$(".btn-3").click(function() {
+					$("#img-1").attr("src", obUrl);
+					$(".yulan").hide();
+					$(".file-3").parents(".uploader").find(".filename").val("");
+				})
+				$(".btn-2").click(function() {
+					$(".yulan").hide();
+				})
+			});
+
+		/*注册校验*/
+		var $registerForm=$('#registerForm');
+		var $nextbtn=$('.nextbtn');
+		var $mobile=$('input[name="mobile"]');
+		/* 提示信息配置，此处配置与表单中各项的name相对应，下同 */  
+	    var msgText = {
+	        name: {
+	            required: "商家名称不能为空"
+	        },
+	        mobile:{
+	            required:"联系电话不能为空",
+	            rangelength:"手机号码必须为11位",
+	            isMobile:"手机号码格式错误"
+	        },
+	        password:{
+	            required: "密码不能为空"
+	        },
+	        email:{
+	            required: "联系邮箱不能为空",
+	            isEmail:"邮箱格式错误"
+	        },
+	        address:{
+	            required: "地址不能为空"
+	        },
+	        addmore:{
+	        	required: "详细地址不能为空"
+	        },
+	        agreeCheckbox:{
+			   	required:'请勾选服务协议条款'
+			}
+	    }
+	    var registerIdenConfig = {
+	        //表单规则配置
+	        rules:{
+	            name:{
+	                required: true
+	            },
+	            mobile:{
+	                required: true,
+	                rangelength:[11,11],
+	                isMobile:true
+	            },
+	            password:{
+	                required: true
+	            },
+	            email:{
+	                required: true,
+	                isEmail:true
+	            },
+	            address:{
+	                required: true
+	            },
+	            addmore:{
+	                required: true
+	            },
+	            agreeCheckbox:{
+					required:true
+				}
+	        },
+	        //提示信息配置
+	        messages: {
+	            name:{
+	                required: msgText.name.required
+	            },
+	            mobile:{
+	                required: msgText.mobile.required,
+	                rangelength: msgText.mobile.rangelength,
+	                isMobile: msgText.mobile.isMobile
+	            },
+	            password:{
+	                required: msgText.password.required                
+	            },
+	            email:{
+	                required: msgText.email.required,
+	                isEmail: msgText.email.isEmail
+	            },
+	            address:{
+	                required: msgText.address.required
+	            },
+	            addmore:{
+	                required: msgText.addmore.required
+	            },
+	            agreeCheckbox:{
+					required:msgText.agreeCheckbox.required
+				}
+	        },
+	        //重写showErrors
+	        showErrors: function (errorMap, errorList) {
+	            var msg = "";
+	            $.each(errorList, function (i, v) {
+	                //msg += (v.message + "\r\n");
+	                //在此处用了layer的方法,显示效果更美观
+	                $('.errorbox').html(v.message);
+	                return false;
+	            });
+	        },
+	        submitHandler:function(){
+	        	$.ajax({
+				    type: 'POST',//请求方法
+				    url: 'js/json/reg.json',//发送请求的地址(http://120.27.196.116:8022/User/Reg)
+				    dataType:'json',//预期服务器返回的数据类型(“json”, “jsonp”, “xml”, “html”, or “text”)
+				    data:$registerForm.serialize(),	//发送到服务器的数据
+				    contentType: 'application/json',//发送信息至服务器时内容编码类型。
+				    success: function(data){
+				    	/*state:1为登录成功/2为失败*/
+					    if(data.errorCode=='-1'){
+					    	$('.errorbox').html(data.errorMsg);
+					    	return false;
+					    }else if(data.errorCode=='-2'){
+					    	$('.errorbox').html(data.errorMsg);
+					    	return false;
+					    }else if(data.errorCode=='-3'){
+					    	$('.errorbox').html(data.errorMsg);
+					    	return false;
+					    }else if(data.errorCode=='-4'){
+					    	$('.errorbox').html(data.errorMsg);
+					    	return false;
+					    }else if(data.errorCode=='-9'){
+					    	$('.errorbox').html(data.errorMsg);
+					    	return false;
+					    }else if(data.errorCode=='-10'){
+					    	$('.errorbox').html(data.errorMsg);
+					    	return false;
+					    }
+					},
+					error: function(xhr, type){
+					  	$('.errorbox').html('Ajax error!')
+					}
+				});
+	        },
+	        onfocusout: false,
+	        onkeyup:false
+	    }
+
+	    /*输入校验*/
+	    fnInputLimit($mobile,4,'keyup');//手机号码
+
+	    /* 表单校验绑定 */
+	    $registerForm.validate(registerIdenConfig);
+	    $nextbtn.on('click', function(){
+	    	var $upimgSrc=$('.filename').attr('data-imgsrc');
+	    	/*判断营业执照是否上传*/
+	    	if($registerForm.valid()){
+	    		if($upimgSrc==''){
+		    		$('.errorbox').html('请上传营业执照');
+		    		return false;
+		    	}else{
+		    		$('.errorbox').html('');
+		    		return true;
+		    	}
+	    	}
+	        
+	    });
+
+	</script>
+</html>

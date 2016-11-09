@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>光彩异联</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <link rel="icon" type="image/png" href="/theme/default/images/favicon.png">
+		<link href="css/amazeui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">登录</a>
+            </h1>
+	    </header>
+	    <div style="height: 49px;"></div>
+	    <div class="login-logo">
+	    	<img src="images/logo.png" />
+	    </div>
+
+	    <form class="loginForm" style="position: relative;">
+	    	<input type="text" maxlength="11" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="mobile" id="mobile" placeholder="请输入手机号" class="login-name">
+		    <input type="password" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" name="password" id="password" placeholder="请输入密码" class="login-password">
+		    <div id="errorbox" style="position: absolute;bottom: 70px;margin: 0 5%;width: 90%;font-size: 1.5rem;color: red;"></div>
+		    <input type="button" class="login-btn1 loginbtn" value="我要登录">
+	    </form>
+	    
+	    <div class="agree">
+	    	<a href="reg.html">免费注册</a>
+	    	<a href="forgetPassword.html" class="forget">忘记密码？</a>
+	    </div>
+	    <div class="line"></div>
+	    <div class="line-text">第三方账号登录</div>
+	    <ul class="second-login">
+	    	<li><a href=""><img src="images/wxlogin.png"/></a></li>
+	    	<li><a href=""><img src="images/qqlogin.png"/></a></li>
+	    	<li><a href=""><img src="images/sinalog.png"/></a></li>
+	    </ul>
+	</body>
+	<script src="js/zepto.js"></script>
+	<script type="text/javascript">
+		/*用户登录*/	
+		var $loginbtn=$('.loginbtn');
+		var $mobile=$('#mobile');
+		var $password=$('#password');
+		var $loginForm=$('.loginForm');
+	    function chkrefer() {
+	    	if($mobile.val()==''){
+	    		$('#errorbox').html('请输入登录账号');
+	    		return false;
+	    	}else{
+	    		if($password.val()==''){
+	    			$('#errorbox').html('请输入登录密码');
+	    			return false;
+	    		}else{
+	    			return true;
+	    		}
+	    		return true;
+	    	}
+	        
+	    }
+	    $loginbtn.on('click',function(){
+	    	if(chkrefer()){
+	    		$.ajax({
+				    type: 'POST',
+				    //发送请求的地址(js/json/login.json)
+				    url: 'http://120.27.196.116:8022/User/Login',
+				    dataType:'json',//预期服务器返回的数据类型(“json”, “jsonp”, “xml”, “html”, or “text”)
+				    data:$loginForm.serialize(),	//发送到服务器的数据
+				    contentType: 'application/json',//发送信息至服务器时内容编码类型。
+				    success: function(data){
+					    if(data.errorCode==-1){
+					    	$password.val('');
+					    	$('#errorbox').html(data.errorMsg);
+					    }else if(data.errorCode==-2){
+					    	$password.val('');
+					    	$('#errorbox').html(data.errorMsg);
+					    }else if(data.errorCode==-3){
+					    	$password.val('');
+					    	$('#errorbox').html(data.errorMsg);
+					    }else if(data.errorCode==-10){
+					    	$password.val('');
+					    	$('#errorbox').html(data.errorMsg);
+					    }
+					},
+					error: function(xhr,type){
+					  	$('#errorbox').html('Ajax error!');
+					}
+				});
+	    	}
+	    })
+
+	</script>
+</html>

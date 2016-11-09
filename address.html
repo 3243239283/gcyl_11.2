@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+		<title>光彩异联</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <link rel="icon" type="image/png" href="/theme/default/images/favicon.png">
+		<link href="css/amazeui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<!--404 not found <link href="css/check.css" rel="stylesheet" type="text/css" /> -->
+		<link rel="stylesheet" href="css/font.css" type="text/css" />
+	</head>
+	<body style="background: #f6f6f6;">
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">添加新地址</a>
+            </h1>
+	    </header>
+	    <div style="height: 49px;"></div>
+	    <form id="addressForm">
+	    	<ul class="address">
+		    	<li>
+		    		<label class="w_30 fl" for="demo1">收货人</label>
+		    		<input type="text" name="addman" class="add-input" placeholder="请输入" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" />	    		
+		    	</li>
+		    	<li>
+		    		<label class="w_30 fl" for="demo1">联系电话</label>
+		    		<input type="text" maxlength="11" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="add-input" name="addphone" placeholder="请输入" />
+		    	</li>
+		    	<li>
+		    		<label class="w_30 fl" for="demo1">所在地</label>
+		    		<input type="text" name="addtlt" class="add-input" placeholder="请输入" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" />	
+		    	</li>
+		    	<li style="border-bottom: none;">
+		    		<input class="w_100 fl add-input" name="addtxt" type="text" placeholder="请输入详细地址" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" />
+		    	</li>
+		    </ul>
+		    <div class="moren">
+		    	<label class="am-checkbox am-warning">
+		    		 <input type="checkbox" checked="checked" value=""  checked>设为默认
+	           </label>            
+		    </div>
+		    <input type="button" class="login-btn addbtn" value="确认提交">
+		    <div class="errorbox" style="margin: 0 5%;width: 90%;font-size: 1.5rem;color: red;"></div>
+	    </form>
+	    
+	<script src="js/zepto.js"></script>
+	<script type="text/javascript">
+		var $addressForm=$('#addressForm');
+		var $addman=$('input[name="addman"]');
+		var $addphone=$('input[name="addphone"]');
+		var $addtlt=$('input[name="addtlt"]');
+		var $addtxt=$('input[name="addtxt"]');
+		var $addbtn=$('.addbtn');
+		var $errorbox=$('.errorbox');
+
+		function addFormMethod(){
+			if($addman.val()==''){
+				$errorbox.html('请填写收货人');
+				return false;
+			}else{
+				if($addphone.val()==''){
+					$errorbox.html('请填写联系电话');
+					return false;
+				}else{
+					if($addtlt.val()==''){
+						$errorbox.html('请填写所在地');
+						return false;
+					}else{
+						if($addtxt.val()==''){
+							$errorbox.html('请填写详细地址');
+							return false;
+						}else{
+							return true;
+						}
+						return true;
+					}
+					return true;
+				}
+				return true;
+			}
+		}
+		$addbtn.on('click',function(){
+			if(addFormMethod()){
+				$.ajax({
+				    type: 'POST',
+				    //发送请求的地址(js/json/address.json)
+				    url: 'http://120.27.196.116:8022/User/AddUserAddress',
+				    dataType:'json',//预期服务器返回的数据类型
+				    data:$addressForm.serialize(),	//发送到服务器的数据
+				    contentType: 'application/json',//发送信息至服务器时内容编码类型。
+				    success: function(data){
+					    if(data.errorCode=='-1'){
+					    	$('.errorbox').html(data.errorMsg);
+					    }else if(data.errorCode=='-9'){
+					    	$('.errorbox').html(data.errorMsg);
+					    }else if(data.errorCode=='-10'){
+					    	$('.errorbox').html(data.errorMsg);
+					    }
+					},
+					error: function(xhr,type){
+					  	$('.errorbox').html('Ajax error!')
+					}
+				});
+			};
+		});
+
+	</script>
+	</body>
+</html>

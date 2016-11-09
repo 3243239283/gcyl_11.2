@@ -1,0 +1,36 @@
+{
+            address = "\U6d59\U6c5f\U7701\U676d\U5dde\U5e02\U8427\U5c71\U533alllll";
+            commenttime = "2016/9/29 11:34:57";
+            content = "";
+            createtime = "2016-09-29 11:34:57";
+            fee = "200.00";
+            grade = 0;
+            id = 496;
+            iscomment = 0;
+            ismanufactor = 1;
+            logisticsno = "";
+            logisticsservice = "";
+            name = "\U8303\U5c0f\U5a49";
+            orderno = 20160929113456999;
+            orderstatus = 2;
+            orderstatusname = "\U5f85\U8bc4\U4ef7";
+            paytime = "2016-09-29 11:34:57";
+            paytype = 6;
+            paytypename = "\U8d26\U6237\U4f59\U989d";
+            phone = 18613080601;
+            score = "100.00";
+            shopname = LOU;
+            shopphone = 18506830905;
+            userphone = 18613080601;
+        }
+
+{
+            effectivetime = "2016/9/29 11:34:57";
+            orderpwd = r2A496HF;
+            price = "200.00";
+            productcount = 1;
+            productname = "";
+            pwdisuse = 1;
+            pwdisusename = "\U5df2\U4f7f\U7528";
+            score = 100;
+        }

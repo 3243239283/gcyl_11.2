@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>光彩异联</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="icon" type="image/png" href="/theme/default/images/favicon.png">
+		<link href="css/amazeui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="css/font.css" type="text/css" />
+	</head>
+
+	<body style="background: #f6f6f6;">
+		<header data-am-widget="header" class="am-header am-header-default sq-head">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">客户管理</a>
+            </h1>
+		</header>
+		<ul style="margin-top: 0;position: fixed;top: 49px;width: 100%;" class="comment-list1">
+           <li class="whole current"><a href="javascript:">全部</a></li>
+           <li class="praise"><a href="javascript:">好评（20）</a></li>
+           <li class="evaluation"><a href="javascript:">中评（5）</a></li>
+           <li class="bad"><a href="javascript:">差评（0）</a></li>
+		</ul>
+		<div style="height: 98px;"></div>
+		<ul style="margin: 0px;" class="comment-pic1 listbox">
+         	
+		</ul>
+	</body>
+	<script src="js/zepto.js"></script>
+	<script type="text/javascript">
+		var $whole=$('.whole');
+		var	$praise=$('.praise');
+		var	$evaluation=$('.evaluation');
+		var	$bad=$('.bad');
+		var $listbox=$('.listbox');
+
+		$.ajax({
+		    type: 'POST',
+		    url: 'js/json/comment3.json',
+		    dataType:'json',
+		    success: function(data){
+			    for (var i = 0; i<data.length; i++) {
+			        var comment_txt='<li>'
+								+'<div class="tit">'
+								+'<img src='+data[i].imgsrc+' class="tx" />'
+								+'<span>'+data[i].username+'</span>'
+								+'<i>['+data[i].time+']</i>'
+								+'</div>'
+								+'<div class="comment-con1">'+data[i].txt+'</div>'
+								+'</div>'
+								+'</li>'
+			        $listbox.prepend(comment_txt);
+			    }
+			},
+			error: function(xhr, type){
+			  	alert('Ajax error!')
+			}
+		});
+
+
+		$whole.on('click',function(){
+			$(this).addClass('current').siblings().removeClass('current');
+			$.ajax({
+			    type: 'POST',
+			    url: 'js/json/comment3.json',
+			    dataType:'json',
+			    success: function(data){
+			    	$listbox.empty();
+				    for (var i = 0; i<data.length; i++) {
+				        var comment_txt='<li>'
+									+'<div class="tit">'
+									+'<img src='+data[i].imgsrc+' class="tx" />'
+									+'<span>'+data[i].username+'</span>'
+									+'<i>['+data[i].time+']</i>'
+									+'</div>'
+									+'<div class="comment-con1">'+data[i].txt+'</div>'
+									+'</div>'
+									+'</li>'
+				        $listbox.prepend(comment_txt);
+				    }
+				},
+				error: function(xhr, type){
+				  	alert('Ajax error!')
+				}
+			});
+		});
+		$praise.on('click',function(){
+			$(this).addClass('current').siblings().removeClass('current');
+			$.ajax({
+			    type: 'POST',
+			    url: 'js/json/comment2.json',
+			    dataType:'json',
+			    success: function(data){
+			    	$listbox.empty();
+				    for (var i = 0; i<data.length; i++) {
+				        var comment_txt='<li>'
+									+'<div class="tit">'
+									+'<img src='+data[i].imgsrc+' class="tx" />'
+									+'<span>'+data[i].username+'</span>'
+									+'<i>['+data[i].time+']</i>'
+									+'</div>'
+									+'<div class="comment-con1">'+data[i].txt+'</div>'
+									+'</div>'
+									+'</li>'
+				        $listbox.prepend(comment_txt);
+				    }
+				},
+				error: function(xhr, type){
+				  	alert('Ajax error!')
+				}
+			});
+		})
+		$evaluation.on('click',function(){
+			$(this).addClass('current').siblings().removeClass('current');
+			$.ajax({
+			    type: 'POST',
+			    url: 'js/json/comment3.json',
+			    dataType:'json',
+			    success: function(data){
+			    	$listbox.empty();
+				    for (var i = 0; i<data.length; i++) {
+				        var comment_txt='<li>'
+									+'<div class="tit">'
+									+'<img src='+data[i].imgsrc+' class="tx" />'
+									+'<span>'+data[i].username+'</span>'
+									+'<i>['+data[i].time+']</i>'
+									+'</div>'
+									+'<div class="comment-con1">'+data[i].txt+'</div>'
+									+'</div>'
+									+'</li>'
+				        $listbox.prepend(comment_txt);
+				    }
+				},
+				error: function(xhr, type){
+				  	alert('Ajax error!')
+				}
+			});
+		})
+		$bad.on('click',function(){
+			$(this).addClass('current').siblings().removeClass('current');
+			$.ajax({
+			    type: 'POST',
+			    url: 'js/json/comment3.json',
+			    dataType:'json',
+			    success: function(data){
+			    	$listbox.empty();
+				    for (var i = 0; i<data.length; i++) {
+				        var comment_txt='<li>'
+									+'<div class="tit">'
+									+'<img src='+data[i].imgsrc+' class="tx" />'
+									+'<span>'+data[i].username+'</span>'
+									+'<i>['+data[i].time+']</i>'
+									+'</div>'
+									+'<div class="comment-con1">'+data[i].txt+'</div>'
+									+'</div>'
+									+'</li>'
+				        $listbox.prepend(comment_txt);
+				    }
+				},
+				error: function(xhr, type){
+				  	alert('Ajax error!')
+				}
+			});
+		})
+	</script>
+</html>

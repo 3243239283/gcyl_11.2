@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>光彩异联</title>
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="stylesheet" href="css/amazeui.min.css" type="text/css" />
+		<link rel="stylesheet" href="css/style.css" type="text/css" />
+		<link rel="stylesheet" href="css/font.css" type="text/css" />
+		<link rel="icon" type="image/png" href="/theme/default/images/favicon.png">
+		<link href="css/amazeui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="css/font.css" type="text/css" />
+	</head>
+
+	<body>
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">商品评价</a>
+            </h1>
+		</header>
+		<div style="height: 49px;"></div>
+		<section>
+			<div class="order-eva-top">
+				<p class="order-eva-top-img">
+					<img src="images/pic.png" />
+				</p>
+				<div class="order-eva-top-info">
+					<h1>特价武夷山桐木关正山小种红茶高档礼盒</h1>
+					<h2><span>￥</span>52.00</h2>
+				</div>
+			</div>
+			<form action="" id="commentForm">
+				<div class="order-eva-Below">
+					<h1>商品评价</h1>
+					<ul>
+						<li>
+							<span class="fl"><p>好评</p></span>
+						</li>
+						<li>
+							<span class="fl"><p>中评</p></span>
+						</li>
+						<li>
+							<span class="fl"><p>差评</p></span>
+						</li>
+					</ul>
+					<div class="order-textbox">
+						<textarea class="com_txt" placeholder="在此输入商品评价"></textarea>
+					</div>
+					<div class="errorbox" style="color:red;"></div>
+				</div>
+			</form>			
+		</section>
+	
+		<div class="order-button">
+			<a href="javascript:void(0);" class="comment">发表评论</a>
+		</div>
+		<!--底部-->
+		<div style="height: 55px;"></div>
+	</body>
+	<script src="js/zepto.js"></script>
+	<script>
+		var $commentForm=$('#commentForm');
+		var $comment=$('.comment');
+		var $com_txt=$('.com_txt');
+		var $errorbox=$('.errorbox');
+		function commentMethod(){
+			if($.trim($com_txt.val())==''){
+				$errorbox.html('请填写商品评价');
+				return false;
+			}else{
+				$errorbox.html('');
+				return true;
+			}
+		}
+		$comment.on('click',function(){
+			if(commentMethod()){
+				$.ajax({
+				    type: 'POST',//请求方法
+				    url: 'js/json/comment.json',//发送请求的地址(http://120.27.196.116:8022/Order/AddOrderComment)
+				    dataType:'json',//预期服务器返回的数据类型
+				    data:$commentForm.serialize(),	//发送到服务器的数据
+				    contentType: 'application/json',//发送信息至服务器时内容编码类型。
+				    success: function(data){
+					    if(data.errorCode=='-1'){
+					    	$('.errorbox').html(data.errorMsg);
+					    }else if(data.errorCode=='-2'){
+					    	$('.errorbox').html(data.errorMsg);
+					    }else if(data.errorCode=='-3'){
+					    	$('.errorbox').html(data.errorMsg);
+					    }else if(data.errorCode=='-9'){
+					    	$('.errorbox').html(data.errorMsg);
+					    }else if(data.errorCode=='-10'){
+					    	$('.errorbox').html(data.errorMsg);
+					    }
+					},
+					error: function(xhr,type){
+					  	alert('Ajax error!')
+					}
+				});
+			}
+		});
+	</script>
+</html>

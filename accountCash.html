@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+		<title>光彩异联</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <link rel="icon" type="image/png" href="/theme/default/images/favicon.png">
+		<link href="css/amazeui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="css/font.css" type="text/css" />
+		<style>
+			#moneyForm{position: relative;}
+			.errorbox{position: absolute;bottom:70px;margin: 0 5%;width: 90%;font-size: 1.5rem;color: red;}
+		</style>
+	</head>
+	<body style="background: #f6f6f6;">
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">提现</a>
+            </h1>
+	    </header>
+	    <div style="height: 49px;"></div>
+	    <form id="moneyForm">
+	    	<div class="cash-money">我的余额：<span class="mon_num">0.00</span>元</div>
+			<div class="cash-money">			
+				<span style="color: #333;">提现</span>
+				<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" class="login-name w_60 moneybox" placeholder="请输入金额">
+				<span>元</span>
+			</div>
+			<div class="cash-money">请选择收款账号</div>
+			<ul class="cash-style">
+				<li>
+					<img src="images/cash1.png" />
+					<span>支付宝</span>
+					<label class="am-radio-inline">
+				    <input type="radio" checked="checked" name="radio10" value="1" data-am-ucheck>
+				</label>
+				</li>
+				<li>
+					<img src="images/cash2.png" />
+					<span>银行卡</span>
+					<label class="am-radio-inline">
+				    <input type="radio" name="radio10" value="1" data-am-ucheck>
+				 </label>
+				</li>
+			</ul>
+			<div class="errorbox"></div>
+			<input type="button" class="login-btn nextbtn" value="下一步">
+	    </form>
+		
+		<script src="js/zepto.js"></script>
+		<script type="text/javascript">
+			var $moneyForm=$('#moneyForm'),
+				$nextbtn=$('.nextbtn'),
+				$mon_num=$('.mon_num'),
+				$moneybox=$('.moneybox');
+			$nextbtn.on('click',function(){
+				var $money=$moneybox.val();
+				if($money==''){
+					$('.errorbox').html('提现金额不能为空');
+					return false;
+				}else{
+					$.ajax({
+					    type: 'POST',//请求方法
+					    //发送请求的地址(js/json/money.json)
+					    url:'http://120.27.196.116:8022/User/UserGetCash',
+					    //预期服务器返回的数据类型(“json”, “jsonp”, “xml”, “html”, or “text”)
+					    dataType:'json',			
+					    //发送到服务器的数据	
+					    data:$moneyForm.serialize(),
+					    //发送信息至服务器时内容编码类型。
+					    contentType: 'application/json',
+					    success: function(data){
+						    if(data.errorCode==-1){
+						    	$('.errorbox').html(data.errorMsg);
+						    }else if(data.errorCode==-2){
+						    	$('.errorbox').html(data.errorMsg);
+						    }else if(data.errorCode==-3){
+						    	$('.errorbox').html(data.errorMsg);
+						    }else if(data.errorCode==-9){
+						    	$('.errorbox').html(data.errorMsg);
+						    }else if(data.errorCode==-10){
+						    	$('.errorbox').html(data.errorMsg);
+						    }
+						},
+						error: function(xhr, type){
+						  	$('.errorbox').html('Ajax error!')
+						}
+					});
+				}
+			})
+		</script>
+	</body>
+
+</html>

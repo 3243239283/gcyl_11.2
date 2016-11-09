@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>光彩异联</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="icon" type="image/png" href="/theme/default/images/favicon.png">
+		<link href="css/amazeui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="css/font.css" type="text/css" />
+		<style>
+			#bindcardForm{position: relative;}
+			.errorbox{position: absolute;bottom: 65px;text-indent: 23%;margin: 0 5%;width: 90%;font-size: 1.4rem;color: red;}
+		</style>
+	</head>
+
+	<body>
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">绑定银行卡</a>
+            </h1>
+		</header>
+		<div style="height: 49px;"></div>
+		<form id="bindcardForm">
+			<div class="card-box">
+				<p>真实姓名</p>
+				<input onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" name="realname" type="text" value="" class="card-box-input realname" />
+			</div>
+			<div class="card-box">
+				<p>身份证号</p>
+				<input onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" name="userId" type="text" maxlength="18" value="" class="card-box-input userId" />
+			</div>
+			<div class="card-box">
+				<p>开户银行</p>
+				<input onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" name="banktxt" type="text" value="" class="card-box-input banktxt" />
+			</div>
+			<div class="card-box">
+				<p>银行卡</p>
+				<input onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" name="cardnum" id="account" type="text" value="" class="card-box-input cardnum" />
+			</div>
+			<div class="errorbox"></div>
+			<input type="button" class="login-btn confirm" value="确认">
+		</form>
+		<div class="bound-text">
+			<h2>银行卡绑定规则</h2>
+			<p>身份证和银行卡开户人为同一人</p>
+		</div>
+	</body>
+	<script src="js/zepto.js"></script>
+	<script type="text/javascript">
+		var $bindcard=$('#bindcard');
+		var $bindcardForm=$('#bindcardForm');
+		var $confirm=$('.confirm');
+		/*校验方法*/
+		function checkMethod(){
+			var $rename=$('.realname');
+			var $userId=$('.userId');
+			var $banktxt=$('.banktxt');
+			var $cardnum=$('.cardnum');
+			var $errorbox=$('.errorbox');
+
+			if($.trim($rename.val())==''){
+				$errorbox.html('姓名不能为空');
+				return false;
+			}else{
+				if($.trim($userId.val())==''){
+					$errorbox.html('身份证号不能为空');
+					return false;
+				}else{
+					if($.trim($banktxt.val())==''){
+						$errorbox.html('开户行不能为空');
+						return false;
+					}else{
+						if($.trim($cardnum.val())==''){
+							$errorbox.html('银行卡不能为空');
+							return false;
+						}else{
+							return true;
+						}
+						return true;
+					}
+					return true;
+				}
+				return true;
+			}
+		}
+		
+		$confirm.click(function() {
+			if(checkMethod()){
+				$.ajax({
+				    type: 'POST',
+				    //发送请求的地址(js/json/money.json)
+				    url: 'http://120.27.196.116:8022/User/AddUserBankCard',
+				    dataType:'json',//预期服务器返回的数据类型(“json”, “jsonp”, “xml”, “html”, or “text”)
+				    data:$bindcardForm.serialize(),	//发送到服务器的数据
+				    contentType: 'application/json',//发送信息至服务器时内容编码类型。
+				    success: function(data){
+					    if(data.errorCode==-1){
+					    	$('.errorbox').html(data.errorMsg);
+					    	return false;
+					    }else if(data.errorCode==-2){
+					    	$('.errorbox').html(data.errorMsg);
+					    	return false;
+					    }else if(data.errorCode==-9){
+					    	$('.errorbox').html(data.errorMsg);
+					    	return false;
+					    }else if(data.errorCode==-10){
+					    	$('.errorbox').html(data.errorMsg);
+					    	return false;
+					    }else{
+					    	$('.errorbox').html('');
+					    	return true;
+					    }
+					},
+					error: function(xhr, type){
+					  	$('.errorbox').html('Ajax error!')
+					}
+				});
+
+			}
+    	});
+
+
+	</script>
+</html>

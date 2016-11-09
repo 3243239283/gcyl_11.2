@@ -1,0 +1,8 @@
+{
+    "success": "True",
+    "errorCode": "-9",
+    "errorMsg": "短信发送失败",
+    "content": {
+        "verifycode": "验证码"
+    }
+}

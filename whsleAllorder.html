@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>光彩异联</title>
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="icon" type="image/png" href="/theme/default/images/favicon.png">
+		<link href="css/amazeui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="css/font.css" type="text/css" />
+		<script src="js/jquery-1.9.1.js"></script>
+		<script src="js/handlebars.js"></script>
+	</head>
+
+	<body style="background: #f6f6f6;">
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="javascript:" class="">我的订单</a>
+            </h1>
+		</header>
+		<div style="height: 49px;"></div>
+		<ul class="order-style2 whslelist">
+			<li class="current">
+				<a class="all" href="javascript:">全部</a>
+			</li>
+			<li>
+				<a class="obligation" href="javascript:">待付款</a>
+			</li>
+			<li>
+				<a class="deliver" href="javascript:">退发货</a>
+			</li>
+			<li>
+				<a class="goods" href="javascript:">待收货</a>
+			</li>
+			<li>
+				<a class="evaluate" href="javascript:">待评价</a>
+			</li>
+		</ul>
+		<div class="clear"></div>
+		
+
+		<!-- 订单列表容器 -->
+		<div id="order_list"></div>
+
+		<!--订单列表模板-->	
+		<script id="list" type="text/x-handlebars-template">
+	    {{#each list}}
+	        <div class="order-box">
+				<div class="order-box-title">
+					<a href="whsleOrderDetail_nev.html" class="">
+						<span class="order-title-name"><i class="iconfont">&#xe645;</i>
+					{{shopname}}
+				</span>
+						<span class="order-title-static">{{orderstatusname}}</span>
+					</a>
+				</div>
+				<ul class="order-list">
+					<li class="link">
+						<a href="whsleOrderDetail_nev.html">
+							<img truesrc="" fffsrc="" src="images/test3.png" class="order-img">
+							<div class="info">
+								<p class="name gray3">Nike 耐克男 跑步鞋 AIR MAX TAILWIND7 683632</p>
+								<p class="sku gray9">尺码：43 颜色：黑/火山岩红</p>
+							</div>
+							<div class="price">
+								<p class="rate">¥529.00</p>
+								<p>x1</p>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<div class="order-pay-box">
+					<span class="freight">共1件，实付款：</span>
+					<span class="rate">¥{{fee}}</span>
+				</div>
+				<div class="order-buttons">
+					{{StatusMethod orderstatus}}
+				</div>
+			</div>
+	    {{/each}}
+	    </script>
+
+		<!--底部-->
+		<div style="height:55px;"></div>
+	</body>
+	
+	<script>
+		var $whslelist_li=$('.whslelist li');
+		$whslelist_li.on('click',function(){
+			$(this).addClass('current').siblings().removeClass('current');
+		});
+
+
+		/*订单分类按钮:全部、待付款、退发货、待收货、待评价*/
+		var $all=$('.all');
+		var $obligation=$('.obligation');
+		var $deliver=$('.deliver');
+		var $goods=$('.goods');
+		var $evaluate=$('.evaluate');
+
+	
+		/*
+			页面加载时请求数据订单
+			状态名orderstatus：
+				@"-1"全部   
+				@"0":待付款   
+				@"1":待消费   
+				@"5":待发货  
+				@"6":待收货   
+				@"2":待评价  
+				@"3":已完成  
+				@"4"：取消
+		*/
+		$.ajax({
+            url:"js/json/whsleAllorder.json",
+            dataType:"json",
+            type:"get",
+            success:function(data){
+                //注册一个Handlebars模版，通过id找到某一个模版，获取模版的html框架
+                var myTemplate = Handlebars.compile($("#list").html());
+                //将json对象用刚刚注册的Handlebars模版封装，得到最终的html，插入到基础table中。
+                Handlebars.registerHelper('StatusMethod',function(orderstatus) { 
+                	if(orderstatus==0){
+            			return new Handlebars.SafeString('<a href="javascript:" class="order-buttons-cancle order-buttons-b">取消订单</a><a href="pay.html" class="order-buttons-b order-buttons-yellow">立即付款</a>');
+            		}else if(orderstatus==3){
+            			return new Handlebars.SafeString('<a href="javascript:" class="order-buttons-delete order-buttons-b">删除订单</a>');
+            		}else if(orderstatus==5){
+            			return new Handlebars.SafeString('');
+            		}else if(orderstatus==6){
+            			return new Handlebars.SafeString('<a href="javascript:" class="order-buttons-logisticse order-buttons-b">查看物流</a><a href="javascript:" class="order-buttons-b order-buttons-yellow">确认收货</a>');
+            		}else if(orderstatus==2){
+            			return new Handlebars.SafeString('<a href="javascript:" class="order-buttons-logisticse order-buttons-b">查看物流</a><a href="javascript:" class="order-buttons-b order-buttons-yellow">确认收货</a>');
+            		}else{
+            			return new Handlebars.SafeString('');
+            		}
+				});
+
+				$('#order_list').html(myTemplate(data));
+            }
+        });
+		/*全部*/
+		$all.on('click',function(){
+			$('#order_list').empty();
+			$.ajax({
+	            url:"js/json/whsleAllorder.json",
+	            dataType:"json",
+	            type:"get",
+	            success:function(data){
+	                //注册一个Handlebars模版，通过id找到某一个模版，获取模版的html框架
+	                var myTemplate = Handlebars.compile($("#list").html());
+	                //将json对象用刚刚注册的Handlebars模版封装，得到最终的html，插入到基础table中。
+	                Handlebars.registerHelper('StatusMethod',function(orderstatus) { 
+	                	if(orderstatus==0){
+	            			return new Handlebars.SafeString('<a href="javascript:" class="order-buttons-cancle order-buttons-b">取消订单</a><a href="pay.html" class="order-buttons-b order-buttons-yellow">立即付款</a>');
+	            		}else if(orderstatus==3){
+	            			return new Handlebars.SafeString('<a href="javascript:" class="order-buttons-delete order-buttons-b">删除订单</a>');
+	            		}else if(orderstatus==5){
+	            			return new Handlebars.SafeString('');
+	            		}else if(orderstatus==6){
+	            			return new Handlebars.SafeString('<a href="javascript:" class="order-buttons-logisticse order-buttons-b">查看物流</a><a href="javascript:" class="order-buttons-b order-buttons-yellow">确认收货</a>');
+	            		}else if(orderstatus==2){
+	            			return new Handlebars.SafeString('<a href="javascript:" class="order-buttons-logisticse order-buttons-b">查看物流</a><a href="javascript:" class="order-buttons-b order-buttons-yellow">确认收货</a>');
+	            		}else{
+	            			return new Handlebars.SafeString('');
+	            		}
+					});
+
+					$('#order_list').html(myTemplate(data));
+	            }
+	        });
+		});
+
+		/*待付款*/
+		$obligation.on('click',function(){
+			$('#order_list').empty();
+			$.ajax({
+	            url:"js/json/whsleAllorder.json",
+	            dataType:"json",
+	            type:"get",
+	            success:function(data){
+	            	for (var i = 0; i<data.list.length; i++){
+	            		var order_box_txt='<div class="order-box">'
+											+'<div class="order-box-title">'
+											+'<a href="whsleOrderDetail_nev.html" class="">'
+											+'<span class="order-title-name"><i class="iconfont"></i>'+data.list[i].shopname+'</span>'
+											+'<span class="order-title-static">'+data.list[i].orderstatusname+'</span>'
+											+'</a>'
+											+'</div>'
+											+'<ul class="order-list">'
+											+'<li class="link">'
+											+'<a href="whsleOrderDetail_nev.html">'
+											+'<img truesrc="" fffsrc="" src="images/test3.png" class="order-img">'
+											+'<div class="info">'
+											+'<p class="name gray3">Nike 耐克男 跑步鞋 AIR MAX TAILWIND7 683632</p>'
+											+'<p class="sku gray9">尺码：43 颜色：黑/火山岩红</p>'
+											+'</div>'
+											+'<div class="price">'
+											+'<p>x1</p>'
+											+'</div>'
+											+'</a>'
+											+'</li>'
+											+'</ul>'
+											+'<div class="order-pay-box">'
+											+'<span class="freight">共1件，实付款：</span>'
+											+'<span class="rate">¥'+data.list[i].fee+'</span>'
+											+'</div>'
+											+'<div class="order-buttons">'
+											+'<a href="javascript:" class="order-buttons-cancle order-buttons-b">取消订单</a><a href="pay.html" class="order-buttons-b order-buttons-yellow">立即付款</a>'
+											+'</div>'
+											+'</div>'
+						if(data.list[i].orderstatus==0){
+							$('#order_list').prepend(order_box_txt);
+		                }
+	            	}	                
+	            }
+	        });
+		});
+
+		/*退发货*/
+		$deliver.on('click',function(){
+			$('#order_list').empty();
+			$.ajax({
+	            url:"js/json/whsleAllorder.json",
+	            dataType:"json",
+	            type:"get",
+	            success:function(data){
+	            	for (var i = 0; i<data.list.length; i++){
+	            		var order_box_txt='<div class="order-box">'
+											+'<div class="order-box-title">'
+											+'<a href="whsleOrderDetail_nev.html" class="">'
+											+'<span class="order-title-name"><i class="iconfont"></i>'+data.list[i].shopname+'</span>'
+											+'<span class="order-title-static">'+data.list[i].orderstatusname+'</span>'
+											+'</a>'
+											+'</div>'
+											+'<ul class="order-list">'
+											+'<li class="link">'
+											+'<a href="whsleOrderDetail_nev.html">'
+											+'<img truesrc="" fffsrc="" src="images/test3.png" class="order-img">'
+											+'<div class="info">'
+											+'<p class="name gray3">Nike 耐克男 跑步鞋 AIR MAX TAILWIND7 683632</p>'
+											+'<p class="sku gray9">尺码：43 颜色：黑/火山岩红</p>'
+											+'</div>'
+											+'<div class="price">'
+											+'<p>x1</p>'
+											+'</div>'
+											+'</a>'
+											+'</li>'
+											+'</ul>'
+											+'<div class="order-pay-box">'
+											+'<span class="freight">共1件，实付款：</span>'
+											+'<span class="rate">¥'+data.list[i].fee+'</span>'
+											+'</div>'
+											+'</div>'
+						if(data.list[i].orderstatus==5){
+							$('#order_list').prepend(order_box_txt);
+		                }
+	            	}	                
+	            }
+	        });
+		});
+
+		/*待收货*/
+		$goods.on('click',function(){
+			$('#order_list').empty();
+			$.ajax({
+	            url:"js/json/whsleAllorder.json",
+	            dataType:"json",
+	            type:"get",
+	            success:function(data){
+	            	for (var i = 0; i<data.list.length; i++){
+	            		var order_box_txt='<div class="order-box">'
+											+'<div class="order-box-title">'
+											+'<a href="whsleOrderDetail_nev.html" class="">'
+											+'<span class="order-title-name"><i class="iconfont"></i>'+data.list[i].shopname+'</span>'
+											+'<span class="order-title-static">'+data.list[i].orderstatusname+'</span>'
+											+'</a>'
+											+'</div>'
+											+'<ul class="order-list">'
+											+'<li class="link">'
+											+'<a href="whsleOrderDetail_nev.html">'
+											+'<img truesrc="" fffsrc="" src="images/test3.png" class="order-img">'
+											+'<div class="info">'
+											+'<p class="name gray3">Nike 耐克男 跑步鞋 AIR MAX TAILWIND7 683632</p>'
+											+'<p class="sku gray9">尺码：43 颜色：黑/火山岩红</p>'
+											+'</div>'
+											+'<div class="price">'
+											+'<p>x1</p>'
+											+'</div>'
+											+'</a>'
+											+'</li>'
+											+'</ul>'
+											+'<div class="order-pay-box">'
+											+'<span class="freight">共1件，实付款：</span>'
+											+'<span class="rate">¥'+data.list[i].fee+'</span>'
+											+'</div>'
+											+'<div class="order-buttons">'
+											+'<a href="javascript:" class="order-buttons-logisticse order-buttons-b">查看物流</a><a href="javascript:" class="order-buttons-b order-buttons-yellow">确认收货</a>'
+											+'</div>'
+											+'</div>'
+						if(data.list[i].orderstatus==6){
+							$('#order_list').prepend(order_box_txt);
+		                }
+	            	}	                
+	            }
+	        });
+		});
+		/*待评价*/
+		$evaluate.on('click',function(){
+			$('#order_list').empty();
+			$.ajax({
+	            url:"js/json/whsleAllorder.json",
+	            dataType:"json",
+	            type:"get",
+	            success:function(data){
+	            	for (var i = 0; i<data.list.length; i++){
+	            		var order_box_txt='<div class="order-box">'
+											+'<div class="order-box-title">'
+											+'<a href="whsleOrderDetail_nev.html" class="">'
+											+'<span class="order-title-name"><i class="iconfont"></i>'+data.list[i].shopname+'</span>'
+											+'<span class="order-title-static">'+data.list[i].orderstatusname+'</span>'
+											+'</a>'
+											+'</div>'
+											+'<ul class="order-list">'
+											+'<li class="link">'
+											+'<a href="whsleOrderDetail_nev.html">'
+											+'<img truesrc="" fffsrc="" src="images/test3.png" class="order-img">'
+											+'<div class="info">'
+											+'<p class="name gray3">Nike 耐克男 跑步鞋 AIR MAX TAILWIND7 683632</p>'
+											+'<p class="sku gray9">尺码：43 颜色：黑/火山岩红</p>'
+											+'</div>'
+											+'<div class="price">'
+											+'<p>x1</p>'
+											+'</div>'
+											+'</a>'
+											+'</li>'
+											+'</ul>'
+											+'<div class="order-pay-box">'
+											+'<span class="freight">共1件，实付款：</span>'
+											+'<span class="rate">¥'+data.list[i].fee+'</span>'
+											+'</div>'
+											+'<div class="order-buttons">'
+											+'<a href="javascript:" class="order-buttons-delete order-buttons-b">删除订单</a><a href="javascript:" class="order-buttons-b order-buttons-yellow">&nbsp;&nbsp;去评价&nbsp;&nbsp;</a>'
+											+'</div>'
+											+'</div>'
+						if(data.list[i].orderstatus==2){
+							$('#order_list').prepend(order_box_txt);
+		                }
+	            	}	                
+	            }
+	        });
+		})
+	</script>
+</html>

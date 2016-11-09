@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+		<title>光彩异联</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <link rel="icon" type="image/png" href="/theme/default/images/favicon.png">
+		<link href="css/amazeui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link href="css/check.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="css/font.css" type="text/css" />
+	</head>
+	<body>
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="" class="">订单详情</a>
+            </h1>
+	    </header>
+	    <div style="height: 49px;"></div>
+	    <!-- 详情容器 -->
+	    <div class="orderbox"></div>
+	</body>
+	<script src="js/zepto.js"></script>
+	<script>		
+		$.ajax({
+		    type: 'POST',
+		    url: 'js/json/orderUnComDetails.json',
+		    dataType:'json',
+		    success: function(data){
+		    	/*
+			    	orderstatus：@"-1"全部   @"0":代付款   @"1":待消费   @"5":待发货  @"6":待收货   @"2":待评价  @"3":已完成  @"4"：取消
+			    */
+		    	var detail_txt='<div class="c-comment-list" style="border: 0; padding: 0;">'
+								+'<a class="o-con" href="">'
+								+'<div class="o-con-img"><img src="images/test10.png"></div>'
+								+'<div class="o-con-txt">'
+								+'<p>南丰蜜桔 南丰贡桔</p>'
+								+'<p class="price">￥'+data.price+'</p>'
+								+'<p>合计：<span>￥'+data.fee+'</span></p>'
+								+'</div>'
+								+'<div class="o-con-much"><h4>x'+data.productcount+'</h4></div>'
+								+'</a>'
+								+'</div>'
+								+'<div class="c-comment">'
+								+'<span class="c-comment-num">订单详情</span>'
+								+'</div>'
+								+'<div class="order-info">'
+								+'<p>订单编号：'+data.orderno+'</p>'
+								+'<p>交易时间：'+data.createtime+'</p>'
+								+'<p>支付时间：'+data.paytime+'</p>'
+								+'<p>交易金额：<span>￥'+data.fee+'</span></p>'
+								+'<p>用户：'+data.name+'</p>'
+								+'<p>收货地址：'+data.address+'</p>'
+								+'<p>状态：<span>'+data.orderstatusname+'</span></p>'
+								+'</div>'
+								+'<div class="c-com-btn">'
+								+'<a href="" class="oncepay">去发货</a>'
+								+'</div>'
+
+				$('.orderbox').prepend(detail_txt);
+			},
+			error: function(xhr, type){
+			  	alert('Ajax error!')
+			}
+		});
+	</script>
+</html>

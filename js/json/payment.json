@@ -1,0 +1,10 @@
+{
+	"state":"1",
+    "success": "True",
+    "errorCode": "-2",
+    "errorMsg": "手机号已存在",
+    "content": {
+        "verifycode": "验证码"
+    }
+}
+

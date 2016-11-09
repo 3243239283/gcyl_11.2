@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>光彩异联</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="stylesheet" href="css/amazeui.min.css" type="text/css" />
+		<link rel="stylesheet" href="css/style.css" type="text/css" />
+		<link rel="stylesheet" href="css/font.css" type="text/css" />
+	</head>
+
+	<body style="background: #f6f6f6;">
+		<header data-am-widget="header" class="am-header am-header-default sq-head ">
+			<div class="am-header-left am-header-nav">
+				<a href="javascript:history.back()" class="">
+					<i class="am-icon-chevron-left"></i>
+				</a>
+			</div>
+			<h1 class="am-header-title">
+  	            <a href="javascript:" class="">确认支付</a>
+           </h1>
+		</header>
+		<div style="height: 49px;"></div>
+		<form id="confirmFormtwo">
+			<div class="pay-iphone" data-phone="15057325529">手机号：150*****529</div>
+		    <div class="pay-box">
+		    	<input name="codetxt" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" type="text" placeholder="请输入验证码" />
+		    	<input type="button" value="获取验证码" class="pay-box-btn codebtn" />
+		    </div>
+		    <input type="button" class="login-btn bg4 paybtntwo" value="确认">
+		</form>
+
+	    <form id="confirmForm">
+	    	<div class="pay-iphone">设置支付密码（请输入6位数字）</div>
+		    <ul class="payment">
+		    	<li><input onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" type="password" name="point"  maxlength="6"/></li>
+		    </ul>
+		    <div class="pay-iphone">确认支付密码（请输入6位数字）</div>
+		    <ul class="payment">
+	            <li><input onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" type="password" name="password"  maxlength="6"/></li>
+		    </ul>
+		    <input type="button" class="login-btn bg4 paybtn" value="确认">
+	    </form>
+	    <div class="errorbox" style="margin: 0 5%;width: 90%;font-size: 1.5rem;color: red;"></div>
+	</body>
+	<script type="text/javascript" src="js/zepto.js"></script>
+	<script type="text/javascript">
+		var $confirmFormtwo=$('#confirmFormtwo');
+		var $confirmForm=$('#confirmForm');
+		var $paybtn=$('.paybtn');
+		var $paybtntwo=$('.paybtntwo');
+		var $codebtn=$('.codebtn');
+
+		$.ajax({
+		    type: 'POST',
+		    url: 'js/json/payment.json',
+		    dataType:'json',
+		    success: function(data){
+		    	if(data.state=='1'){
+		    		$confirmFormtwo.show();
+		    		$confirmForm.hide();
+		    	}else if(data.state=='2'){
+		    		$confirmFormtwo.hide();
+		    		$confirmForm.show();
+		    	}
+		    },
+			error: function(xhr, type){
+			  	alert('Ajax error!')
+			}
+		});
+
+		/*state:1 获取校验码*/
+		var $phonenum=$('.pay-iphone').attr('data-phone');
+		
+		$codebtn.on('click',function(){
+			$.ajax({
+			    type: 'POST',					//请求方法
+			    url: 'js/json/payment.json',	//发送请求的地址
+			    dataType:'json',				//预期服务器返回的数据类型(“json”, “jsonp”, “xml”, “html”, or “text”)发送信息至服务器时内容编码类型。
+			    success: function(data){
+				    /*
+				    	发送手机号码到后台，后台处理后返回相应参数及状态
+				    */
+				    if(data.errorCode=='-1'){
+				    	$('.errorbox').html(data.errorMsg);
+				    }else if(data.errorCode=='-2'){
+				    	$('.errorbox').html(data.errorMsg);
+				    }else if(data.errorCode=='-8'){
+				    	$('.errorbox').html(data.errorMsg);
+				    }else if(data.errorCode=='-9'){
+				    	$('.errorbox').html(data.errorMsg);
+				    }else if(data.errorCode=='-10'){
+				    	$('.errorbox').html(data.errorMsg);
+				    }else{
+				    	$('.errorbox').html('');
+				    	return true;
+				    }
+				},
+				error: function(xhr, type){
+				  	alert('Ajax error!')
+				}
+			});
+		});
+		$paybtntwo.on('click',function(){
+			var $codetxt=$('input[name="codetxt"]').val();
+			if($codetxt==''){
+				alert('验证码不能为空');
+				return false;
+			}else{
+				$.ajax({
+				    type: 'POST',					//请求方法
+				    url: 'js/json/payment.json',	//发送请求的地址
+				    dataType:'json',				//预期服务器返回的数据类型(“json”, “jsonp”, “xml”, “html”, or “text”)发送信息至服务器时内容编码类型。
+				    success: function(data){
+					    /*
+					    	发送验证码到后台，后台处理后返回相应参数及状态
+					    */
+					    if($codetxt!=data.code){
+					    	alert(data.codeErrorMsg);
+					    }else{
+					    	return true;
+					    }
+					},
+					error: function(xhr, type){
+					  	alert('Ajax error!')
+					}
+				});
+			}
+		});
+		/*state:2 确认支付*/
+		function payMethod(){
+			var $setup=$('input[name="point"]');
+			var $password=$('input[name="password"]');
+			if($setup.val()==''){
+				alert('请设置支付密码');
+				return false;
+			}else{
+				if($password.val()==''){
+					alert('请确认支付密码');
+					return false;
+				}else{
+					if($setup.val()!=$password.val()){
+						alert('两次输入密码不一致');
+						return false;
+					}else{
+						return true;
+					}
+					return true;
+				}
+				return true;
+			}
+		}
+		$paybtn.on('click',function(){
+			if(payMethod()){
+				$.ajax({
+				    type: 'POST',
+				    url: 'js/json/payment.json',//(http://120.27.196.116:8022/User/SendVerifyCode)
+				    dataType:'json',
+				    success: function(data){
+					    /*
+					    	此处根据后台返回的参数判断支付密码是否合法,
+					    	errorCode=1:成功、errorCode=2:失败
+					    */
+					    if(data.errorCode==1){
+					    	alert(data.errorMsg);
+					    }else if(data.errorCode==2){
+					    	alert(data.errorMsg)
+					    }
+					},
+					error: function(xhr, type){
+					  	alert('Ajax error!')
+					}
+				});
+			}
+			
+		});
+
+	</script>
+</html>

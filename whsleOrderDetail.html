@@ -46,7 +46,7 @@
             success:function(data){
             	/*
 					待付款、已付款、已发货、已收货、已评价
-					0-5-6-2-3
+					orderstatus:0-5-6-2-3
             	*/
                 var wHtml="";
 
@@ -63,15 +63,14 @@
                 	wHtml+='<p class="text"><i class="iconfont">&#xe61f;</i><span>订单已完成</span></p>';
                 }
 				wHtml+='<p class="price">总价：￥'+data[1].price+'</p>';
-				wHtml+='</div>';
-				
+				wHtml+='</div>';				
 
 				if(data[0].orderstatus==0){
 					wHtml+='<div class="c-com-btn">';
                 	wHtml+='<a href="javascript:" class="canelpay">取消订单</a>';
                 	wHtml+='</div>';
                 }else if(data[0].orderstatus==5){
-                	
+                	wHtml+='';
                 }else if(data[0].orderstatus==6){
                 	wHtml+='<div class="c-com-btn">';
                 	wHtml+='<a href="javascript:" class="confirm">确认收货</a>';
@@ -85,7 +84,6 @@
                 	wHtml+='<a href="javascript:" class="canelpay">删除订单</a>';
                 	wHtml+='</div>';
                 }
-				
 				
 				wHtml+='<div class="clear"></div>';
 				wHtml+='<ul class="order-state">';
@@ -220,7 +218,7 @@
                 wHtml+='</ul>';
 				wHtml+='<div class="clear"></div>';
 				wHtml+='<div class="c-comment"><span class="c-comment-num">商品详情</span></div>';
-				wHtml+='<div class="c-comment-list" style="border: 0; ">';
+				wHtml+='<div class="c-comment-list" style="border: 0;">';
 				wHtml+='<a class="o-con" href="javascript:">';
 				wHtml+='<div class="o-con-img"><img src="images/test10.png"></div>';
 				wHtml+='<div class="o-con-txt">';
@@ -261,6 +259,8 @@
                 	wHtml+='<div class="order-text">应付总额：<span>￥'+(data[1].score*data[1].productcount)+'</span></div>';
 					wHtml+='<a href="pay.html" class="js-btn">去付款</a>';
 					wHtml+='</div>';
+                }else{
+                	wHtml+='';
                 }
 
 				$("#whsle_detail_box").html(wHtml);

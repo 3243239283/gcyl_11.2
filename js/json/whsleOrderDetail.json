@@ -1,0 +1,37 @@
+[
+	{
+	    "address":"地址名",
+	    "commenttime":"2016/9/29 11:34:57",
+	    "content":"",
+	    "createtime":"2016-09-29 11:34:57",
+	    "fee":"200.00",
+	    "grade":0,
+	    "id":496,
+	    "iscomment":0,
+	    "ismanufactor":1,
+	    "logisticsno":"快递单号",
+	    "logisticsservice":"物流服务",
+	    "name":"用户名",
+	    "orderno":20160929113456999,
+	    "orderstatus":0,
+	    "orderstatusname":"待评价",
+	    "paytime":"2016-09-29 11:34:57",
+	    "paytype":6,
+	    "paytypename":"支付类型名称",
+	    "phone":18613080601,
+	    "score":"100.00",
+	    "shopname":"商铺名",
+	    "shopphone":18506830905,
+	    "userphone":18613080601
+	},
+	{
+	    "effectivetime":"2016/9/29 11:34:57",
+	    "orderpwd":"123",
+	    "price":"200.00",
+	    "productcount":1,
+	    "productname":"武夷山桐木关正山小种红茶",
+	    "pwdisuse":1,
+	    "pwdisusename":"123",
+	    "score":"200.00"
+	}
+]

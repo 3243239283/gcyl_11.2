@@ -25,94 +25,246 @@
 				</a>
 			</div>
 			<h1 class="am-header-title">
-  	            <a href="" class="">订单详情</a>
+  	            <a href="javascript:" class="">订单详情</a>
             </h1>
 	    </header>
 	    <div style="height: 49px;"></div>
-	    <div class="d-infor">
-	    	<p class="text"><i class="iconfont">&#xe61f;</i><span>订单已提交，等待付款</span></p>
-	    	<p class="price">总价：￥58.00</p>
-	    </div>
-	    <div class="c-com-btn">
-			<a href="" class="canelpay">取消订单</a>
-		</div>
-		<div class="clear"></div>
-		<ul class="order-state">
-			<li>
-				<span class="current"><i class="iconfont">&#xe609;</i></span>
-				<p>订单提交</p>
-				<div class="line"></div>
-			</li>
-			<li>
-				<span><i class="iconfont">&#xe60a;</i></span>
-				<p>付款</p>
-				<div class="line"></div>
-			</li>
-			<li>
-				<span><i class="iconfont">&#xe877;</i></span>
-				<p>已发货 </p>
-				<div class="line"></div>
-			</li>
-			<li>
-				<span><i class="iconfont">&#xe620;</i></span>
-				<p>已收货</p>
-				<div class="line"></div>
-			</li>
-			<li>
-				<span><i class="iconfont">&#xe646;</i></span>
-				<p>已评价</p>
-			</li>
-		</ul>
-		<div class="clear"></div>
-		<div class="c-comment">
-			<span class="c-comment-num">商品详情</span>
-		</div>
-		<div class="c-comment-list" style="border: 0; ">
-			<a class="o-con" href="">
-            	<div class="o-con-img"><img src="images/test10.png"></div>
-                <div class="o-con-txt">
-                	<p>特价武夷山桐木关正山小种红茶高档礼盒</p>
-                	<p class="price">￥52.00</p>
-                	<p>合计：<span>￥52.00</span></p>
-                </div>
-            	<div class="o-con-much"><h4>x1</h4></div>
-            </a>
-		</div>
-		<div class="c-com-btn">
-			<a href="" class="oncepay">再来一单</a>
-		</div>
-		<div class="clear"></div>
-		<div class="c-comment">
-			<span class="c-comment-num">商家信息</span>
-		</div>
-		<div class="men-infor">
-			<div class="men-infor-left">
-				<h2>七米设计零食屋</h2>
-				<p>江西现代职业技术学院 南门 商业街 168号</p>
-			</div>
-			<div class="men-infor-right">
-				<a href="tel:400-000-000"><i class="iconfont">&#xe61c;</i></a>
-			</div>
-		</div>
-		<div class="clear"></div>
-		<div class="c-comment">
-			<span class="c-comment-num">订单详情</span>
-		</div>
-		<div class="order-info">
-			<p>手机号码：13045678945</p>
-			<p>收货地址：江西现代职业技术学院  学生公寓  7栋 一楼105室</p>
-			<p>订单编号：11345679912</p>
-			<p>创建时间：2016-10-14 22:02:55</p>
-		</div>
-		<div class="shop-fix">
-			<div class="order-text">
-				应付总额：<span>￥52.00</span>
-			</div>
-			<a href="pay.html" class="js-btn">去付款</a>
-		</div>
-		  <!--底部-->
- <div style="height: 55px;"></div>
- 
- 
+
+	    <!-- 详情容器 -->
+	    <div id="whsle_detail_box"></div>
+		
+		<!--底部-->
+ 		<div style="height: 55px;"></div>
 	</body>
+	<script src="js/zepto.js"></script>
+	<script>
+		$.ajax({
+			//(api/AppShopOrder/GetOrderDetail)
+            url:"js/json/whsleOrderDetail.json",
+            dataType:"json",
+            type:"get",
+            success:function(data){
+            	/*
+					待付款、已付款、已发货、已收货、已评价
+					0-5-6-2-3
+            	*/
+                var wHtml="";
+
+				wHtml+='<div class="d-infor">';
+				if(data[0].orderstatus==0){
+                	wHtml+='<p class="text"><i class="iconfont">&#xe61f;</i><span>订单已提交，等待付款</span></p>';
+                }else if(data[0].orderstatus==5){
+                	wHtml+='<p class="text"><i class="iconfont">&#xe61f;</i><span>订单已付款,等待卖家发货</span></p>';
+                }else if(data[0].orderstatus==6){
+                	wHtml+='<p class="text"><i class="iconfont">&#xe61f;</i><span>订单已发货,等待确认收货</span></p>';
+                }else if(data[0].orderstatus==2){
+                	wHtml+='<p class="text"><i class="iconfont">&#xe61f;</i><span>订单已收货,等待评价</span></p>';
+                }else if(data[0].orderstatus==3){
+                	wHtml+='<p class="text"><i class="iconfont">&#xe61f;</i><span>订单已完成</span></p>';
+                }
+				wHtml+='<p class="price">总价：￥'+data[1].price+'</p>';
+				wHtml+='</div>';
+				
+
+				if(data[0].orderstatus==0){
+					wHtml+='<div class="c-com-btn">';
+                	wHtml+='<a href="javascript:" class="canelpay">取消订单</a>';
+                	wHtml+='</div>';
+                }else if(data[0].orderstatus==5){
+                	
+                }else if(data[0].orderstatus==6){
+                	wHtml+='<div class="c-com-btn">';
+                	wHtml+='<a href="javascript:" class="confirm">确认收货</a>';
+                	wHtml+='</div>';
+                }else if(data[0].orderstatus==2){
+                	wHtml+='<div class="c-com-btn">';
+                	wHtml+='<a href="whsleOrderEvaluated.html" class="evaluated">去评价</a>';
+                	wHtml+='</div>';
+                }else if(data[0].orderstatus==3){
+                	wHtml+='<div class="c-com-btn">';
+                	wHtml+='<a href="javascript:" class="canelpay">删除订单</a>';
+                	wHtml+='</div>';
+                }
+				
+				
+				wHtml+='<div class="clear"></div>';
+				wHtml+='<ul class="order-state">';
+
+				if(data[0].orderstatus==0){
+                	wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe609;</i></span>';
+					wHtml+='<p>订单提交</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span><i class="iconfont">&#xe60a;</i></span>';
+					wHtml+='<p>付款</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span><i class="iconfont">&#xe877;</i></span>';
+					wHtml+='<p>已发货 </p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span><i class="iconfont">&#xe620;</i></span>';
+					wHtml+='<p>已收货</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span><i class="iconfont">&#xe646;</i></span>';
+					wHtml+='<p>已评价</p>';
+					wHtml+='</li>';
+                }else if(data[0].orderstatus==5){
+                	wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe609;</i></span>';
+					wHtml+='<p>订单提交</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe60a;</i></span>';
+					wHtml+='<p>付款</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span><i class="iconfont">&#xe877;</i></span>';
+					wHtml+='<p>已发货 </p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span><i class="iconfont">&#xe620;</i></span>';
+					wHtml+='<p>已收货</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span><i class="iconfont">&#xe646;</i></span>';
+					wHtml+='<p>已评价</p>';
+					wHtml+='</li>';
+                }else if(data[0].orderstatus==6){
+                	wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe609;</i></span>';
+					wHtml+='<p>订单提交</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe60a;</i></span>';
+					wHtml+='<p>付款</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe877;</i></span>';
+					wHtml+='<p>已发货 </p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span><i class="iconfont">&#xe620;</i></span>';
+					wHtml+='<p>已收货</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span><i class="iconfont">&#xe646;</i></span>';
+					wHtml+='<p>已评价</p>';
+					wHtml+='</li>';
+                }else if(data[0].orderstatus==2){
+                	wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe609;</i></span>';
+					wHtml+='<p>订单提交</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe60a;</i></span>';
+					wHtml+='<p>付款</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe877;</i></span>';
+					wHtml+='<p>已发货 </p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe620;</i></span>';
+					wHtml+='<p>已收货</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span><i class="iconfont">&#xe646;</i></span>';
+					wHtml+='<p>已评价</p>';
+					wHtml+='</li>';
+                }else if(data[0].orderstatus==3){
+                	wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe609;</i></span>';
+					wHtml+='<p>订单提交</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe60a;</i></span>';
+					wHtml+='<p>付款</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe877;</i></span>';
+					wHtml+='<p>已发货 </p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe620;</i></span>';
+					wHtml+='<p>已收货</p>';
+					wHtml+='<div class="line"></div>';
+					wHtml+='</li>';
+					wHtml+='<li>';
+					wHtml+='<span class="current"><i class="iconfont">&#xe646;</i></span>';
+					wHtml+='<p>已评价</p>';
+					wHtml+='</li>';
+                }
+
+                wHtml+='</ul>';
+				wHtml+='<div class="clear"></div>';
+				wHtml+='<div class="c-comment"><span class="c-comment-num">商品详情</span></div>';
+				wHtml+='<div class="c-comment-list" style="border: 0; ">';
+				wHtml+='<a class="o-con" href="javascript:">';
+				wHtml+='<div class="o-con-img"><img src="images/test10.png"></div>';
+				wHtml+='<div class="o-con-txt">';
+				wHtml+='<p>'+data[1].productname+'</p>';
+				wHtml+='<p class="price">￥'+data[1].price+'</p>';
+				wHtml+='<p>合计：<span>￥'+(data[1].score*data[1].productcount)+'</span></p>';
+				wHtml+='</div>';
+				wHtml+='<div class="o-con-much"><h4>x'+data[1].productcount+'</h4></div>';
+				wHtml+='</a>';
+				wHtml+='</div>';
+				wHtml+='<div class="c-com-btn">';
+				wHtml+='<a href="javascript:" class="oncepay">再来一单</a>';
+				wHtml+='</div>';
+				wHtml+='<div class="clear"></div>';
+				wHtml+='<div class="c-comment">';
+				wHtml+='<span class="c-comment-num">商家信息</span>';
+				wHtml+='</div>';
+				wHtml+='<div class="men-infor">';
+				wHtml+='<div class="men-infor-left">';
+				wHtml+='<h2>'+data[0].shopname+'</h2>';
+				wHtml+='<p>'+data[0].address+'</p>';
+				wHtml+='</div>';
+				wHtml+='<div class="men-infor-right">';
+				wHtml+='<a href="tel:400-000-000"><i class="iconfont">&#xe61c;</i></a>';
+				wHtml+='</div>';
+				wHtml+='</div>';
+				wHtml+='<div class="clear"></div>';
+				wHtml+='<div class="c-comment"><span class="c-comment-num">订单详情</span></div>';
+				wHtml+='<div class="order-info">';
+				wHtml+='<p>手机号码：'+data[0].phone+'</p>';
+				wHtml+='<p>收货地址：'+data[0].address+'</p>';
+				wHtml+='<p>订单编号：'+data[0].orderno+'</p>';
+				wHtml+='<p>创建时间：'+data[0].paytime+'</p>';
+				wHtml+='</div>';
+
+				if(data[0].orderstatus==0){
+					wHtml+='<div class="shop-fix">';
+                	wHtml+='<div class="order-text">应付总额：<span>￥'+(data[1].score*data[1].productcount)+'</span></div>';
+					wHtml+='<a href="pay.html" class="js-btn">去付款</a>';
+					wHtml+='</div>';
+                }
+
+				$("#whsle_detail_box").html(wHtml);
+            }
+        });
+	</script>
 </html>

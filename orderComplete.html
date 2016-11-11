@@ -59,7 +59,7 @@
 			        "logisticsservice":"",  //物流服务
 			        "name":"",              //用户名
 			        "orderno":"",      		//订单编号
-			        "orderstatus":"",       //状态
+			        "orderstatus":"",       //订单状态
 			        "orderstatusname":"",   //订单状态的名字
 			        "paytime":"",    		//付款时间
 			        "paytype":"",           //支付类型
@@ -72,7 +72,7 @@
 			    }*/
 			    for (var i = 0; i<data.length; i++) {
 			    	/*
-			    	orderstatus：@"-1"全部   @"0":代付款   @"1":待消费   @"5":待发货  @"6":待收货   @"2":待评价  @"3":已完成  @"4"：取消
+			    	orderstatus：@"-1"全部   @"0":待付款   @"1":待消费   @"5":待发货  @"6":待收货   @"2":待评价  @"3":已完成  @"4"：取消
 			    	*/
 			    	var list_txt='<div class="c-comment-list or_list">'
 									 +'<a href="orderComDetails.html">'

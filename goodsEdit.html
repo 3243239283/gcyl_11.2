@@ -16,7 +16,11 @@
 		<link rel="stylesheet" href="css/amazeui.min.css" type="text/css" />
 		<link rel="stylesheet" href="css/style.css" type="text/css" />
 		<link rel="stylesheet" href="css/font.css" type="text/css" />
+		<style>
+		.js_uploadBox{position: relative;}
+		.js_upFile{opacity: 0;background: #efefef;border: none;cursor: pointer;position: absolute;width: 100px;height: 100px;top: 46px;}
 		
+		</style>
 	</head>
 
 	<body>
@@ -65,8 +69,8 @@
 						<h3 class="w_100 fl js_uploadText">图片描述</h3>
 						<input class="js_upFile" type="file" name="cover">
 					</div>
-					<div class="js_showBox ">
-						<img class="js_logoBox" src="" width="100px" height="100px">
+					<div class="js_showBox" style="margin: 20px 0 0 0;">
+						<img class="js_logoBox" src="images/uploadbtnimg.jpg" width="100px" height="100px">
 					</div>
 				</div>
 			</div>
@@ -80,8 +84,7 @@
 					allowType: ["gif", "jpeg", "jpg", "bmp", "png"], //允许上传图片的类型
 					maxSize :4, //允许上传图片的最大尺寸，单位M
 					success:function(e){
-						$(".js_uploadText").text('更改');
-						alert('图片上传成功');
+						
 					}
 				});
 			</script>
@@ -136,11 +139,11 @@
 				<h3>上传图片</h3>
 			</div>
 			<ul class="upload-box imgbox">
-						<li><img src="images/test.png"></li>
-						<li><img src="images/test.png"></li>
-						<li>
-							<a href="#" class="upload-addimg imgload"><i class="iconfont">&#xe614;</i></a>
-						</li>
+				<li><img src="images/test.png"></li>
+				<li><img src="images/test.png"></li>
+				<li>
+					<a href="#" class="upload-addimg imgload"><i class="iconfont">&#xe614;</i></a>
+				</li>
 			</ul>
 			<div class="errorbox" style="margin: 0 10px;font-size: 1.5rem;color: red;"></div>
 		</form>

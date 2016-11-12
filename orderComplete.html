@@ -83,8 +83,10 @@
 									 +'<p>收货地址：'+data[i].address+'</p>'
 									 +'</a>'
 									 +'</div>'
-			    	/*if(data[i].orderstatus==3){}  */
-			    	$('.orderbox').prepend(list_txt);
+			    	if(data[i].orderstatus==3){
+			    		$('.orderbox').prepend(list_txt);
+			    	}  
+			    	
 			    }
 			},
 			error: function(xhr, type){

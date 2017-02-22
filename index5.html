@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>光彩异联</title>
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <link rel="icon" type="image/png" href="/theme/default/images/favicon.png">
+    <link href="css/amazeui.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <style>
+        table#tt{font-size: 1.4rem;}
+        table#tt thead tr th{font-weight: 400;border:1px solid #efefef;}
+        table#tt tbody tr td{font-weight: 400;border:1px solid #efefef;text-align: center;}
+        #toolbar .excelbtn{margin:10px 0;text-align: center;}
+        #toolbar .excelbtn a{margin: 0;border: 0;color: #fff;font-size: 1rem;border-radius: 3px;background: #FF6946;display: inline-block;width: 70px;height: 30px;line-height: 30px;}
+        input{width: 65%;margin: 0 0 10px 0;font-size: 1.4rem;padding: 8px 10px;border-radius: 3px;border: 1px solid #e9e9e9;background: #FFFFFF;}
+        .d_search span{width: 25%;display: inline-block;text-align: right;}
+        .d_search select{width: 65%;margin: 0 0 10px 0;font-size: 1.4rem;padding: 8px 10px;border-radius: 3px;border: 1px solid #e9e9e9;background: #FFFFFF;}
+        a#searchBtn{color: #fff;font-size: 1.4rem;border-radius: 3px;background: #FF6946;display: block;margin: 0 auto;width: 90px;height: 35px;line-height: 35px;text-align: center;}
+        .edittable tbody tr td:first-child{text-align: right;}
+        .edittable tbody tr td:last-child{text-indent: 10px;}
+        .edittable tbody tr td:last-child input{width: 95%;margin: 5px 0 5px 0;font-size: 1.4rem;padding: 8px 10px;border-radius: 3px;border: 1px solid #e9e9e9;background: #FFFFFF;}
+        .edittable tbody tr td:last-child textarea{width: 95%;margin: 5px 0 5px 0;font-size: 1.4rem;padding: 8px 10px;border-radius: 3px;border: 1px solid #e9e9e9;background: #FFFFFF;}
+
+        #dlg-buttons{text-align: center;margin: 0 0 20px 0;}
+        #dlg-buttons a{border: 0;color: #fff;font-size: 1.5rem;border-radius: 3px;background: #FF6946;display: inline-block;width: 90px;height: 35px;line-height: 35px;}
+        
+    </style>
+  </head>
+  <body>
+    <header data-am-widget="header" class="am-header am-header-default sq-head ">
+      <div class="am-header-left am-header-nav">
+        <a href="javascript:history.back()" class="">
+          <i class="am-icon-chevron-left"></i>
+        </a>
+      </div>
+      <h1 class="am-header-title"><a href="javascript:" class="">订单信息</a></h1>
+    </header>
+    <div style="height: 49px;"></div>
+
+    <form acceptbutton="searchBtn" style="margin: 0 20px;">
+        <table width="100%" id="tt" class="easyui-datagrid" url="/shop/ShopOrder/GetDataList" idField="id" method="post" style="" title="用户订单管理" toolbar="#toolbar" singleSelect="false" pagination="true">
+            <thead>
+                <tr>
+                    <th align="center" field="id" checkbox="true">记录ID</th>
+                    <th align="center" field="userphone">用户登录名</th>
+                    <th align="center" field="paytypename">支付类型</th>
+                    <th align="center" field="fee">支付金额</th>
+                    <th align="center" field="orderno">订单号</th>
+                    <th align="center" field="orderstatusname">订单状态</th>
+                    <th align="center" field="paytime">支付时间</th>
+                    <th align="center" field="createtime" sortable="true">创建时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>123</td>
+                    <td>123</td>
+                    <td>123</td>
+                    <td>123</td>
+                    <td>123</td>
+                    <td>123</td>
+                    <td>123</td>
+                    <td>123</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="toolbar">
+            <div class="excelbtn">
+                <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="Add()">添加</a>
+                <a href="/admin/AdminOrder/DataToExcel" class="easyui-linkbutton" id="excel" plain="true">导出excel</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="Edit()">查看详情</a>
+                <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="Del()">删除</a>
+            </div>
+            <div class="d_search">
+                <span>用户登录名:</span>
+                <input value="" id="tbuserphone" placeholder="待搜索的用户登录名" /><br>
+                <span>订单号:</span>
+                <input value="" id="tborderno" placeholder="待搜索的订单号" /><br>
+                <span>订单状态:</span>
+                <!-- @Html.DropDownList("ddlorderstatus") -->
+                <select name="ddlorderstatus" id="">
+                    <option value ="volvo">1</option>
+                    <option value ="saab">2</option>
+                    <option value="opel">3</option>
+                    <option value="audi">4</option>
+                </select>
+                <br>
+                <a href="javascript:" class="easyui-linkbutton" id="searchBtn" plain="true" onclick="doSearch()">搜索</a>
+
+            </div>
+
+        </div>
+    </form>
+    <!-- 添加修改对话框 -->
+    <div id="dlg" class="easyui-dialog" style="height:600px;padding:10px 20px" closed="true" buttons="#dlg-buttons">
+        <div class="ftitle">平台信息</div>
+        <form id="fm" method="post">
+            <div class="easyui-tabs" style="width:100%;overflow:hidden;" id="tabs">
+                <div title="基本信息" style="padding:5px;">
+                    <table class="edittable" style=" width:100%;">
+                        <tr>
+                            <td>用户登录名:</td>
+                            <td><table id="userphone" style="width:200px">123</table></td>
+                        </tr>
+                        <tr>
+                            <td>商家名:</td>
+                            <td>
+                                <table id="shopname" style="width:200px">123</table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>订单号:</td>
+                            <td>
+                                <table id="orderno" style="width:200px">123</table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>支付类型:</td>
+                            <td>
+                                <table id="paytypename" style="width:200px">123</table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>支付金额:</td>
+                            <td>
+                                <table id="fee" style="width:200px">123</table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>订单积分:</td>
+                            <td>
+                                <table id="score" style="width:200px">123</table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>订单状态:</td>
+                            <td>
+                                <table id="orderstatusname" style="width:200px">123</table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>支付时间:</td>
+                            <td>
+                                <table id="paytime" style="width:200px">123</table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>创建时间:</td>
+                            <td>
+                                <table id="createtime" style="width:200px">123</table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div title="商品详情" style="padding:5px">
+                    <table class="edittable" style=" width:80%;" id="product"></table>
+
+                </div>
+                <div title="收货信息" style="padding:5px">
+                    <table class="edittable" style=" width:100%;">
+                        <tr>
+                            <td>收货人:</td>
+                            <td>
+                                <table id="name" style="width:200px">123</table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&#12288;收货地址:</td>
+                            <td>
+                                <table id="address" style="width:200px">123</table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>收货电话:</td>
+                            <td>
+                                <table id="phone" style="width:200px">123</table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>物流公司:</td>
+                            <td><input id="logisticsservice" name="logisticsservice" class="easyui-validatebox"></td>
+                        </tr>
+                        <tr>
+                            <td>运单号:</td>
+                            <td>
+                                <input id="logisticsno" name="logisticsno" class="easyui-validatebox">
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div title="用户评论" style="padding:5px">
+                    <table class="edittable" style=" width:100%;">
+                        <tr>
+                            <td>评分:</td>
+                            <td>
+                                <table id="grade" style="width:200px">123</table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>评论内容:</td>
+                            <td>
+                                <textarea id="content" name="content" readonly="readonly" class="easyui-textbox" data-options="multiline:true" style="height:60px"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&#12288;评价时间:</td>
+                            <td>
+                                <table id="commenttime" style="width:200px">123</table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="dlg-buttons">
+        <div>
+            <a id="btn_recipient" href="#" class="easyui-linkbutton" onclick="OrderRecipient()">确认收货</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">保存</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+        </div>
+    </div>
+
+  </body>
+  <script src="js/zepto.js"></script>
+  <script>
+      <script>
+        var recipienturl = '';
+        function OrderRecipient() {
+            $.post(recipienturl, function (result) {
+                if (result.errorMsg) {
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#dlg').dialog('close');      // close the dialog
+                    $('#tt').datagrid('reload');    // reload the user data
+                }
+            }, 'json');
+        }
+        var usepwdurl = '';
+        var ismanufactor = 0;
+        function Edit() {
+            var row = $('#tt').datagrid('getSelected');
+            if (row) {
+                $('#dlg').dialog('open').dialog('setTitle', '查看- ' + row.phone);
+                $('#fm').form('load', row);
+                url = '/shop/ShopOrder/Check/' + row.id;
+                usepwdurl = '/shop/ShopOrder/UsePwd/' + row.id;
+                recipienturl = '/shop/ShopOrder/OrderRecipient/' + row.id;
+
+                $('#product').html('');
+                loaddetail(row.id);
+                ismanufactor = row.ismanufactor;
+                $("#tabs").tabs("select", 0);
+                $('#userphone').html(row.userphone);
+                $('#shopname').html(row.shopname);
+                $('#orderno').html(row.orderno);
+                $('#paytypename').html(row.paytypename);
+                $('#fee').html(row.fee);
+                $('#score').html(row.score);
+                $('#orderstatusname').html(row.orderstatusname);
+                $('#paytime').html(row.paytime);
+                $('#createtime').html(row.createtime);
+
+                if (row.orderstatus == 6)
+                    $('#btn_recipient').linkbutton('enable');
+                else
+                    $('#btn_recipient').linkbutton('disable');
+
+                if (row.address != '' && row.ismanufactor==1)
+                {
+                    $('#name').html(row.name);
+                    $('#address').html(row.address);
+                    $('#phone').html(row.phone);
+                    showtabs('收货信息');
+                    if (row.orderstatus == 2 || row.orderstatus == 3) {
+                        $('#tb_logisticsservice').html(row.logisticsservice);
+                        $('#tb_logisticsno').html(row.logisticsno);
+                        $('#tb_logisticsservice').show();
+                        $('#tb_logisticsno').show();
+                        $('#logisticsno').hide();
+                        $('#logisticsservice').hide();
+                    }
+                    else {
+                        $('#tb_logisticsservice').hide();
+                        $('#tb_logisticsno').hide();
+                        $('#logisticsno').show();
+                        $('#logisticsservice').show();
+                    }
+                }
+                else
+                    hidetabs('收货信息');
+
+
+
+                if (row.iscomment == 1) {
+                    showtabs('用户评论');
+                    $('#grade').html(row.grade);
+                    $('#commenttime').html(row.commenttime);
+                    $('#content').textbox('setValue', decodeURIComponent(row.content));
+                }
+                else
+                    hidetabs('用户评论');
+
+
+            }
+            else {
+                $.messager.alert("提示", "请选中要操作的记录!");
+            }
+        }
+
+        function saveUser() {
+            var content = $('#content').textbox('getValue');
+            if (content.length <= 0) {
+
+            }
+            else {
+                $("#content").textbox('setValue', encodeURIComponent(content));
+            }
+            $('#fm').form('submit', {
+                url: url,
+                method: "post",
+                onSubmit: function () {
+                    return $(this).form('validate');
+                },
+                success: function (result) {
+                    var result = eval('(' + result + ')');
+                    if (result.errorMsg) {
+                        $("#content").textbox('setValue', decodeURIComponent(content));
+                        $.messager.show({
+                            title: 'Error',
+                            msg: result.errorMsg
+                        });
+                    } else {
+                        $('#dlg').dialog('close');      // close the dialog
+                        $('#tt').datagrid('reload');    // reload the user data
+                        //$('#tt').datagrid('getSelected').length = 0;
+                        //$("#dg").datagrid("unselectRow", $("#dg").datagrid("getSelections"));
+                    }
+                }
+            });
+        }
+        function doSearch() {
+            $('#tt').datagrid('load', {
+                userphone: $('#tbuserphone').val(),
+                shopname: $('#tbshopname').val(),
+                orderno: $('#tborderno').val(),
+                orderstatus: $('#ddlorderstatus').val()
+            });
+
+            var str = 'index=0';
+            if ($('#tbuserphone').val() != '')
+                str += '&userphone=' + $('#tbuserphone').val();
+            if ($('#tbshopname').val() != '')
+                str += '&shopname=' + $('#tbshopname').val();
+            if ($('#tborderno').val() != '')
+                str += '&orderno=' + $('#tborderno').val();
+            if ($('#ddlorderstatus').val() != '-1')
+                str += '&orderstatus=' + $('#ddlorderstatus').val();
+            $('#excel').attr("href", "/shop/ShopOrder/DataToExcel?" + str)
+        }
+
+
+        function Del() {
+            var rows = $('#tt').datagrid('getSelections');
+            if (rows.length > 0) {
+                var idarr = "";
+                for (var i = 0; i < rows.length; i++) {
+                    if ((i + 1) == rows.length) {
+                        idarr += rows[i].id;
+                    }
+                    else {
+                        idarr += rows[i].id + ",";
+                    }
+                }
+                $.messager.confirm('确认', '确定要删除选中记录?', function (r) {
+                    if (r) {
+                        $.post('/shop/ShopOrder/Del/' + idarr, function (result) {
+                            if (result.success) {
+                                $('#tt').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.show({   // show error message
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        }, 'json');
+                    }
+                });
+            }
+            else {
+                $.messager.alert("提示", "请选中要操作的记录!");
+            }
+        }
+
+        function hidetabs(title) {
+            tab_option = $('#tabs').tabs('getTab', title).panel('options').tab;
+            tab_option.hide();
+        }
+
+        function showtabs(title) {
+            tab_option = $('#tabs').tabs('getTab', title).panel('options').tab;
+            tab_option.show();
+        }
+
+        function loaddetail(id) {
+            $.post('/shop/ShopOrder/GetOrderDetail/' + id, function (result) {
+                $('#product').append($(result).map(function () {
+                    detailHtml = '<tr><td>产品名:</td><td>' + this.productname + '</td><td>&nbsp&nbsp&nbsp&nbsp商品数量:</td><td>' + this.productcount + '</td><td>&nbsp&nbsp&nbsp&nbsp商品价格:</td><td>' + this.price + '</td></tr><tr><td>商品积分:</td><td>' + this.score + '</td>';
+                    if (ismanufactor == 0)
+                    {
+                        detailHtml += '<td>&nbsp&nbsp&nbsp&nbsp密码:</td><td>' + this.orderpwd + '</td><td>&nbsp&nbsp&nbsp&nbsp使用状态:</td><td id="' + this.orderpwd + '">' + this.pwdisusename;
+                        if (this.pwdisuse == 0)
+                            detailHtml += '<a href="#" class="easyui-linkbutton" onclick="usepwd(\'' + this.orderpwd + '\')">确认使用</a>';
+                        detailHtml += '</td>';
+                    }
+                    
+                    detailHtml += ' </tr><tr style="height:10px"></tr>'
+                    return detailHtml;
+                }).get().join(''));
+            }, 'json');
+        }
+        function usepwd(pwd) {
+            $.post(usepwdurl, { pwd: pwd }, function (result) {
+                if (result.success == false) {
+                    $.messager.show({   // show error message
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                }
+                else {
+                    $('#' + pwd).html('已使用');
+                }
+            }, 'json');
+        }
+    </script>
+  </script>
+</html>
+
